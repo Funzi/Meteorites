@@ -1,7 +1,8 @@
-package cz.pribula.meteorites;
+package cz.pribula.meteorites.api;
 
 import java.util.List;
 
+import cz.pribula.meteorites.Meteorite;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
