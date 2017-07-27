@@ -1,6 +1,6 @@
 package cz.pribula.meteorites;
 
-import com.cocoahero.android.geojson.GeoJSONObject;
+import com.cocoahero.android.geojson.Point;
 import com.google.gson.annotations.SerializedName;
 
 public class Meteorite {
@@ -25,7 +25,7 @@ public class Meteorite {
     @SerializedName("geolocation_city")
     private String geolocationCity;
     @SerializedName("geolocation")
-    private GeoJSONObject geolocation;
+    private Point geolocation;
     @SerializedName("geolocation_state")
     private String geolocationState;
 
@@ -109,11 +109,11 @@ public class Meteorite {
         this.geolocationCity = geolocationCity;
     }
 
-    public GeoJSONObject getGeolocation() {
+    public Point getGeolocation() {
         return geolocation;
     }
 
-    public void setGeolocation(GeoJSONObject geolocation) {
+    public void setGeolocation(Point geolocation) {
         this.geolocation = geolocation;
     }
 
