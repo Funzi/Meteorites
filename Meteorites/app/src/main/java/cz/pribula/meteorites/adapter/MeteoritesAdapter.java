@@ -52,6 +52,8 @@ public class MeteoritesAdapter extends RealmAdapter<MeteoritePojo> {
 
         final MeteoritesAdapter.ViewHolder holder = (MeteoritesAdapter.ViewHolder) viewHolder;
         holder.itemName.setText(position + 1 + "."+ meteorite.getName());
+        holder.itemDate.setText(meteorite.getTimestamp());
+        holder.itemMass.setText(meteorite.getMass() + " g");
         holder.bind(meteorite,listener);
     }
 
@@ -65,11 +67,15 @@ public class MeteoritesAdapter extends RealmAdapter<MeteoritePojo> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView itemName;
+        public TextView itemDate;
+        public TextView itemMass;
 
         public ViewHolder(CardView v) {
             super(v);
             itemName = (TextView) v.findViewById(R.id.meteorite_name);
-        }
+            itemDate = (TextView) v.findViewById(R.id.meteorite_date);
+            itemMass = (TextView) v.findViewById(R.id.meteorite_mass);
+         }
         public void bind(final MeteoritePojo item, final MeteoritesAdapter.OnAdapterItemClickListener listener) {
 
             itemView.setOnClickListener(new View.OnClickListener() {
