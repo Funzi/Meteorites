@@ -41,4 +41,7 @@ public class NasaClientImpl {
     public Call<List<Meteorite>> getAllMeteorites() {
         return client.getAllMeteorites();
     }
+    public Call<List<Meteorite>> getAllMeteoritesFromDate() {
+        return client.getAllMeteoritesFromDate();
+    }
 }
