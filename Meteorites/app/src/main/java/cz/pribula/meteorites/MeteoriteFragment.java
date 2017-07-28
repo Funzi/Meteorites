@@ -9,9 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
 import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +33,15 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MeteoriteFragment extends android.app.Fragment implements MeteoritesAdapter.OnAdapterItemClickListener{
+public class MeteoriteFragment extends android.app.Fragment implements MeteoritesAdapter.OnAdapterItemClickListener, OnMapReadyCallback{
 
     NasaClientImpl client;
     List<MeteoritePojo> meteorites;
     MeteoritesAdapter adapter;
     RecyclerView meteoritesView;
+    GoogleMap map;
     private Realm realm;
+    private MeteoritePojo currentMeteorite;
 
     public MeteoriteFragment() {
         // Required empty public constructor
@@ -104,23 +111,33 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     public void onAdapterItemClick(MeteoritePojo item) {
         MapFragment mapFragment = MapFragment.newInstance();
         GoogleMapOptions options = new GoogleMapOptions();
+        currentMeteorite = item;
         options.mapType(GoogleMap.MAP_TYPE_SATELLITE)
                 .compassEnabled(false)
                 .rotateGesturesEnabled(false)
                 .tiltGesturesEnabled(false)
+                .camera(new CameraPosition(new LatLng(Double.parseDouble(item.getLatitude()),Double.parseDouble(item.getLongitude())),14f,14f,14f))
+
                 ;
+        //Marker newmarker = mapFragment..addMarker(new MarkerOptions().position(null).title("marker title").icon(BitmapDescriptorFactory.fromResource(R.drawable.mr_button_light)));
+        mapFragment.getMapAsync(this);
         ((MainActivity) getActivity()).addFragment(MainActivity.FragmentType.MAP_FRAGMENT,mapFragment);
     }
 
-//    @Override
-//    public void onMapReady(GoogleMap googleMap) {
-//        // Add a marker in Sydney, Australia,
-//        // and move the map's camera to the same location.
-//        LatLng sydney = new LatLng(-33.852, 151.211);
-//        googleMap.addMarker(new MarkerOptions().position(sydney)
-//                .title("Marker in Sydney"));
-//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//    }
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        map = googleMap;
+        placeMarker(currentMeteorite.getName(),Double.parseDouble(currentMeteorite.getLatitude()),Double.parseDouble(currentMeteorite.getLongitude()));
+    }
+
+    //Added public method to be called from the Activity
+    public void placeMarker(String title, double lat, double lon) {
+        if (map != null) {
+            LatLng marker = new LatLng(lat, lon);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 1));
+            map.addMarker(new MarkerOptions().title(title).position(marker));
+        }
+    }
 
     public void setRealmAdapter(RealmResults<MeteoritePojo> meteoritesResult) {
         meteoritesResult.sort("mass", RealmResults.SORT_ORDER_DESCENDING);
