@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity  {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_item_update: ((MeteoriteFragment) getFragmentManager().findFragmentByTag(FRAGMENT_METEORITE_TAG)).updateMeteorites();
-                                        return true;
+                return true;
             case R.id.menu_item_about: return true;
             default:
                 return super.onOptionsItemSelected(item);

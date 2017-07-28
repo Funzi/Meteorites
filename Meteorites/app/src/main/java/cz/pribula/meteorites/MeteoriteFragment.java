@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMapOptions;
@@ -31,7 +30,6 @@ import retrofit2.Response;
 
 public class MeteoriteFragment extends android.app.Fragment implements MeteoritesAdapter.OnAdapterItemClickListener{
 
-    Button button;
     NasaClientImpl client;
     List<MeteoritePojo> meteorites;
     MeteoritesAdapter adapter;
@@ -52,8 +50,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         super.onCreate(savedInstanceState);
         client = new NasaClientImpl();
         meteorites = new ArrayList<>();
-        adapter = new MeteoritesAdapter(meteorites,this,getActivity());
-        //get realm instance
+        adapter = new MeteoritesAdapter(getActivity(),this);
         this.realm = RealmController.with(getActivity()).getRealm();
 
     }
@@ -61,8 +58,8 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_meteorite, container, false);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         meteoritesView = (RecyclerView) view.findViewById(R.id.meteorites_list_view);
         meteoritesView.setLayoutManager(layoutManager);
@@ -70,7 +67,8 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
                 DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
         meteoritesView.addItemDecoration(itemDecoration);
         meteoritesView.setAdapter(adapter);
-        // refresh the realm instance
+
+        /// //realm
         RealmController.with(getActivity()).refresh();
         // get all persisted objects
         // create the helper adapter and notify data set changes
@@ -84,17 +82,17 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void persistData(List<Meteorite> met) {
-        for (Meteorite b : met) {
-            // Persist your data easily
+    private void persistData(List<Meteorite> meteorites) {
+        for (Meteorite m : meteorites) {
+
             MeteoritePojo newMeteorite = new MeteoritePojo();
-            newMeteorite.setId(b.getId());
-            newMeteorite.setLatitude(b.getLatitude());
-            newMeteorite.setLongitude(b.getLongitude());
-            newMeteorite.setMass(b.getMass());
-            newMeteorite.setNameType(b.getNameType());
-            newMeteorite.setTimestamp(b.getTimestamp());
-            newMeteorite.setName(b.getName());
+            newMeteorite.setId(m.getId());
+            newMeteorite.setLatitude(m.getLatitude());
+            newMeteorite.setLongitude(m.getLongitude());
+            newMeteorite.setMass(m.getMass());
+            newMeteorite.setNameType(m.getNameType());
+            newMeteorite.setTimestamp(m.getTimestamp());
+            newMeteorite.setName(m.getName());
             realm.beginTransaction();
             realm.copyToRealm(newMeteorite);
             realm.commitTransaction();
@@ -114,15 +112,26 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         ((MainActivity) getActivity()).addFragment(MainActivity.FragmentType.MAP_FRAGMENT,mapFragment);
     }
 
+//    @Override
+//    public void onMapReady(GoogleMap googleMap) {
+//        // Add a marker in Sydney, Australia,
+//        // and move the map's camera to the same location.
+//        LatLng sydney = new LatLng(-33.852, 151.211);
+//        googleMap.addMarker(new MarkerOptions().position(sydney)
+//                .title("Marker in Sydney"));
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+//    }
+
     public void setRealmAdapter(RealmResults<MeteoritePojo> meteoritesResult) {
+        meteoritesResult.sort("mass", RealmResults.SORT_ORDER_DESCENDING);
         RealmMeteoritesAdapter realmAdapter = new RealmMeteoritesAdapter(getActivity().getApplicationContext(), meteoritesResult, true);
-        // Set the data and tell the RecyclerView to draw
+
         adapter.setRealmAdapter(realmAdapter);
         adapter.notifyDataSetChanged();
     }
 
     public void updateMeteorites() {
-        Call<List<Meteorite>> call = client.getAllMeteorites();
+        Call<List<Meteorite>> call = client.getAllMeteoritesFromDate();
         call.enqueue(new Callback<List<Meteorite>>() {
             @Override
             public void onResponse(Call<List<Meteorite>> call, Response<List<Meteorite>> response) {
@@ -132,11 +141,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
 
             @Override
             public void onFailure(Call<List<Meteorite>> call, Throwable t) {
-                doSomething();
                 adapter.notifyDataSetChanged();
-            }
-
-            private void doSomething() {
             }
         });
     }

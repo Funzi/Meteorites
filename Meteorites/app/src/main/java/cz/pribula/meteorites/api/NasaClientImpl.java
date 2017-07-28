@@ -8,10 +8,6 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-/**
- * Created by david on 26-Jul-17.
- */
-
 public class NasaClientImpl {
 
     String API_BASE_URL = "https://data.nasa.gov/";
@@ -41,6 +37,7 @@ public class NasaClientImpl {
     public Call<List<Meteorite>> getAllMeteorites() {
         return client.getAllMeteorites();
     }
+
     public Call<List<Meteorite>> getAllMeteoritesFromDate() {
         return client.getAllMeteoritesFromDate();
     }

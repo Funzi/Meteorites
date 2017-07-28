@@ -18,7 +18,7 @@ public class Meteorite {
     private String latitude;
     @SerializedName("reclong")
     private String longitude;
-    @SerializedName("geolocation_adress")
+    @SerializedName("geolocation_address")
     private String geolocationAddress;
     @SerializedName("geolocation_zip")
     private String geolocationZip;

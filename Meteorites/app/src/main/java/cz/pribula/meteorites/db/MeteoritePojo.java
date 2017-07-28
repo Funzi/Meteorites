@@ -9,6 +9,12 @@ import io.realm.annotations.PrimaryKey;
 public class MeteoritePojo extends RealmObject {
     @PrimaryKey
     private String id;
+    private String name;
+    private String nameType;
+    private double mass;
+    private String timestamp;
+    private String latitude;
+    private String longitude;
 
     public String getId() {
         return id;
@@ -66,10 +72,4 @@ public class MeteoritePojo extends RealmObject {
         this.longitude = longitude;
     }
 
-    private String name;
-    private String nameType;
-    private double mass;
-    private String timestamp;
-    private String latitude;
-    private String longitude;
 }

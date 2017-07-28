@@ -61,7 +61,6 @@ public class RealmController {
         realm.commitTransaction();
     }
 
-    //find all objects in the Book.class
     public RealmResults<MeteoritePojo> getMeteorites() {
         return realm.where(MeteoritePojo.class).findAll();
     }

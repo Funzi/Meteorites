@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.List;
-
 import cz.pribula.meteorites.R;
 import cz.pribula.meteorites.db.MeteoritePojo;
 import cz.pribula.meteorites.db.RealmController;
@@ -17,19 +15,15 @@ import io.realm.Realm;
 
 public class MeteoritesAdapter extends RealmAdapter<MeteoritePojo> {
 
-    protected List<MeteoritePojo> items;
     MeteoritesAdapter.OnAdapterItemClickListener listener;
     final Context context;
     private Realm realm;
-    private LayoutInflater inflater;
-
 
     public interface OnAdapterItemClickListener {
         void onAdapterItemClick(MeteoritePojo item);
     }
 
-    public MeteoritesAdapter(List<MeteoritePojo> myDataset, MeteoritesAdapter.OnAdapterItemClickListener listener, Context context) {
-        items = myDataset;
+    public MeteoritesAdapter(Context context, MeteoritesAdapter.OnAdapterItemClickListener listener) {
         this.listener = listener;
         this.context = context;
     }
