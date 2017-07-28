@@ -9,21 +9,31 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import com.google.android.gms.maps.MapFragment;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 public class MainActivity extends AppCompatActivity  {
 
+    public enum FragmentType {NO_FRAGMENT,MAP_FRAGMENT,ABOUT_FRAGMENT}
+
     private static final String FRAGMENT_METEORITE_TAG = "fragment_meteorite";
     private static final String FRAGMENT_MAP_TAG = "fragment_map";
+    private static final String FRAGMENT_TYPE_TAG="fragment_type";
+
+    private FragmentType currentFragmentType;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
         Fragment frag = new MeteoriteFragment().newInstance("", "");
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, frag, FRAGMENT_METEORITE_TAG).commit();
-        setContentView(R.layout.activity_main);
+        currentFragmentType = FragmentType.NO_FRAGMENT;
 
         RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
                 .name(Realm.DEFAULT_REALM_NAME)
@@ -34,10 +44,50 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
-
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
         return true;
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putSerializable(FRAGMENT_TYPE_TAG, currentFragmentType);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        currentFragmentType = (FragmentType) savedInstanceState.getSerializable(FRAGMENT_TYPE_TAG);
+        if(currentFragmentType != FragmentType.NO_FRAGMENT) {
+            Fragment addedFragment = getFragmentManager().findFragmentByTag(FRAGMENT_MAP_TAG);
+            if(addedFragment == null) {
+                addFragment(currentFragmentType);
+            } else {
+                addFragment(currentFragmentType,addedFragment);
+            }
+        }
+        super.onRestoreInstanceState(savedInstanceState);
+    }
+    public void addFragment(FragmentType fragmentType) {
+        addFragment(fragmentType, getFragmentByType(fragmentType));
+    }
+
+    public void addFragment(FragmentType fragmentType, Fragment fragment) {
+        if(fragmentType == FragmentType.NO_FRAGMENT) {
+            return;
+        }
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.fragment_container,fragment,FRAGMENT_MAP_TAG);
+        ft.addToBackStack(null).commit();
+        this.currentFragmentType = fragmentType;
+    }
+
+    private Fragment getFragmentByType(FragmentType type) {
+        switch(type) {
+            case NO_FRAGMENT: return null;
+            case MAP_FRAGMENT: return MapFragment.newInstance();
+            default: return null;
+        }
     }
 
     @Override
@@ -49,13 +99,6 @@ public class MainActivity extends AppCompatActivity  {
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public void addMapFragment(Fragment mapFragment) {
-        FragmentTransaction fragmentTransaction =
-                getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, mapFragment,FRAGMENT_MAP_TAG);
-        fragmentTransaction.addToBackStack(null).commit();
     }
 
     public void removeFragment() {

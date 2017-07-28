@@ -111,7 +111,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
                 .rotateGesturesEnabled(false)
                 .tiltGesturesEnabled(false)
                 ;
-        ((MainActivity) getActivity()).addMapFragment(mapFragment);
+        ((MainActivity) getActivity()).addFragment(MainActivity.FragmentType.MAP_FRAGMENT,mapFragment);
     }
 
     public void setRealmAdapter(RealmResults<MeteoritePojo> meteoritesResult) {
