@@ -1,6 +1,5 @@
 package cz.pribula.meteorites;
 
-import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -10,6 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.GoogleMapOptions;
+import com.google.android.gms.maps.MapFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,17 +104,14 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     }
     @Override
     public void onAdapterItemClick(MeteoritePojo item) {
-        MapFragment mMapFragment = MapFragment.newInstance();
+        MapFragment mapFragment = MapFragment.newInstance();
         GoogleMapOptions options = new GoogleMapOptions();
         options.mapType(GoogleMap.MAP_TYPE_SATELLITE)
                 .compassEnabled(false)
                 .rotateGesturesEnabled(false)
                 .tiltGesturesEnabled(false)
                 ;
-        FragmentTransaction fragmentTransaction =
-                getFragmentManager().beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container, mMapFragment);
-        fragmentTransaction.commit();
+        ((MainActivity) getActivity()).addMapFragment(mapFragment);
     }
 
     public void setRealmAdapter(RealmResults<MeteoritePojo> meteoritesResult) {

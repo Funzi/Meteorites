@@ -32,7 +32,8 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     //geojson
     compile 'com.cocoahero.android:geojson:1.0.1@jar'
-
+    //google maps
+    compile 'com.google.android.gms:play-services:11.0.4'
     // Realm
     compile 'io.realm:realm-android:0.82.1'
 
