@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentType currentFragmentType;
 
+    public static final String APP_TITLE = "Meteorites";
     public static final String METEORITES_UPDATED_TAG = "updated";
 
     @Override

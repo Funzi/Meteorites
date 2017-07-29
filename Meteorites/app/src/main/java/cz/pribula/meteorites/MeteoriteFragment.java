@@ -44,7 +44,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         // Required empty public constructor
     }
 
-    public static MeteoriteFragment newInstance(String param1, String param2) {
+    public static MeteoriteFragment newInstance() {
         MeteoriteFragment fragment = new MeteoriteFragment();
         return fragment;
     }
@@ -78,6 +78,9 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         // create the helper adapter and notify data set changes
         // changes will be reflected automatically
         setRealmAdapter(RealmController.with(getActivity()).getMeteorites());
+
+        setToolbarTitle();
+
         return view;
     }
 
@@ -92,7 +95,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     }
 
     private void addMap(Meteorite item) {
-        MapFragmentWithRetainedState mapFragment = MapFragmentWithRetainedState.newInstance();
+        MapFragmentWithRetainedState mapFragment = MapFragmentWithRetainedState.newInstance(item.getName());
         currentMeteorite = item;
         mapFragment.getMapAsync(this);
         ((MainActivity) getActivity()).addFragment(MainActivity.FragmentType.MAP_FRAGMENT, mapFragment);
@@ -128,6 +131,11 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
 
     @Override
     public void onMeteoritesUpdated() {
+        setToolbarTitle();
         adapter.notifyDataSetChanged();
+    }
+
+    private void setToolbarTitle() {
+        getActivity().setTitle(MainActivity.APP_TITLE + " (" + adapter.getItemCount()+")");
     }
 }
