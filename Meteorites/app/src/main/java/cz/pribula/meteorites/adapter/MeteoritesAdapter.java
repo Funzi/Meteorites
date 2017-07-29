@@ -39,16 +39,13 @@ public class MeteoritesAdapter extends RealmAdapter<MeteoritePojo> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         realm = RealmController.getInstance().getRealm();
-
-        // get the article
         final MeteoritePojo meteorite = getItem(position);
-        // cast the generic view holder to our specific one
 
         final MeteoritesAdapter.ViewHolder holder = (MeteoritesAdapter.ViewHolder) viewHolder;
-        holder.itemName.setText(position + 1 + "."+ meteorite.getName());
+        holder.itemName.setText(position + 1 + "." + meteorite.getName());
         holder.itemDate.setText(meteorite.getTimestamp());
         holder.itemMass.setText(meteorite.getMass() + " g");
-        holder.bind(meteorite,listener);
+        holder.bind(meteorite, listener);
     }
 
     @Override
@@ -69,11 +66,13 @@ public class MeteoritesAdapter extends RealmAdapter<MeteoritePojo> {
             itemName = (TextView) v.findViewById(R.id.meteorite_name);
             itemDate = (TextView) v.findViewById(R.id.meteorite_date);
             itemMass = (TextView) v.findViewById(R.id.meteorite_mass);
-         }
+        }
+
         public void bind(final MeteoritePojo item, final MeteoritesAdapter.OnAdapterItemClickListener listener) {
 
             itemView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
+                @Override
+                public void onClick(View v) {
                     listener.onAdapterItemClick(item);
                 }
             });

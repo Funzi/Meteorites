@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
-
 public class RealmController {
 
     private static RealmController instance;
@@ -68,5 +67,9 @@ public class RealmController {
     //query a single item with the given id
     public MeteoritePojo getMeteorite(String id) {
         return realm.where(MeteoritePojo.class).equalTo("id", id).findFirst();
+    }
+
+    public static void sortMeteoritesByParameter(RealmResults<MeteoritePojo> meteoritesResult, String parameter) {
+        meteoritesResult.sort(parameter, RealmResults.SORT_ORDER_DESCENDING);
     }
 }

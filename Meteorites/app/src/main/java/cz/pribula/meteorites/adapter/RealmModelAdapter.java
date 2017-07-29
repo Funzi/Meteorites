@@ -1,4 +1,5 @@
 package cz.pribula.meteorites.adapter;
+
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;

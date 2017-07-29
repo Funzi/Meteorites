@@ -11,10 +11,7 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.GoogleMapOptions;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -26,6 +23,7 @@ import cz.pribula.meteorites.adapter.RealmMeteoritesAdapter;
 import cz.pribula.meteorites.api.NasaClientImpl;
 import cz.pribula.meteorites.db.MeteoritePojo;
 import cz.pribula.meteorites.db.RealmController;
+import cz.pribula.meteorites.map.MapFragmentWithRetainedState;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import retrofit2.Call;
@@ -33,7 +31,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class MeteoriteFragment extends android.app.Fragment implements MeteoritesAdapter.OnAdapterItemClickListener, OnMapReadyCallback{
+public class MeteoriteFragment extends android.app.Fragment implements MeteoritesAdapter.OnAdapterItemClickListener, OnMapReadyCallback {
 
     NasaClientImpl client;
     List<MeteoritePojo> meteorites;
@@ -57,9 +55,9 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         super.onCreate(savedInstanceState);
         client = new NasaClientImpl();
         meteorites = new ArrayList<>();
-        adapter = new MeteoritesAdapter(getActivity(),this);
+        adapter = new MeteoritesAdapter(getActivity(), this);
         this.realm = RealmController.with(getActivity()).getRealm();
-
+        setRetainInstance(true);
     }
 
     @Override
@@ -105,8 +103,9 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
             realm.commitTransaction();
         }
 
-       // getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE).with(this).setPreLoad(true);
+        // getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE).with(this).setPreLoad(true);
     }
+
     @Override
     public void onAdapterItemClick(MeteoritePojo item) {
         addMap(item);
@@ -122,7 +121,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
-        placeMarker(currentMeteorite.getName(),Double.parseDouble(currentMeteorite.getLatitude()),Double.parseDouble(currentMeteorite.getLongitude()));
+        placeMarker(currentMeteorite.getName(), Double.parseDouble(currentMeteorite.getLatitude()), Double.parseDouble(currentMeteorite.getLongitude()));
     }
 
     private void placeMarker(String title, double lat, double lon) {
@@ -135,7 +134,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     }
 
     public void setRealmAdapter(RealmResults<MeteoritePojo> meteoritesResult) {
-        meteoritesResult.sort("mass", RealmResults.SORT_ORDER_DESCENDING);
+        RealmController.sortMeteoritesByParameter(meteoritesResult, "mass");
         RealmMeteoritesAdapter realmAdapter = new RealmMeteoritesAdapter(getActivity().getApplicationContext(), meteoritesResult, true);
 
         adapter.setRealmAdapter(realmAdapter);

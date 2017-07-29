@@ -31,7 +31,7 @@ public class NasaClientImpl {
                         )
                         .build();
 
-        client =  retrofit.create(NasaClient.class);
+        client = retrofit.create(NasaClient.class);
     }
 
     public Call<List<Meteorite>> getAllMeteorites() {

@@ -14,13 +14,13 @@ import com.google.android.gms.maps.MapFragment;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity {
 
-    public enum FragmentType {NO_FRAGMENT,MAP_FRAGMENT,ABOUT_FRAGMENT}
+    public enum FragmentType {NO_FRAGMENT, MAP_FRAGMENT, ABOUT_FRAGMENT}
 
     private static final String FRAGMENT_METEORITE_TAG = "fragment_meteorite";
     private static final String FRAGMENT_MAP_TAG = "fragment_map";
-    private static final String FRAGMENT_TYPE_TAG="fragment_type";
+    private static final String FRAGMENT_TYPE_TAG = "fragment_type";
 
     private FragmentType currentFragmentType;
 
@@ -58,44 +58,50 @@ public class MainActivity extends AppCompatActivity  {
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         currentFragmentType = (FragmentType) savedInstanceState.getSerializable(FRAGMENT_TYPE_TAG);
-        if(currentFragmentType != FragmentType.NO_FRAGMENT) {
+        if (currentFragmentType != FragmentType.NO_FRAGMENT) {
             Fragment addedFragment = getFragmentManager().findFragmentByTag(FRAGMENT_MAP_TAG);
-            if(addedFragment == null) {
+            if (addedFragment == null) {
                 addFragment(currentFragmentType);
             } else {
-                addFragment(currentFragmentType,addedFragment);
+                addFragment(currentFragmentType, addedFragment);
             }
         }
         super.onRestoreInstanceState(savedInstanceState);
     }
+
     public void addFragment(FragmentType fragmentType) {
         addFragment(fragmentType, getFragmentByType(fragmentType));
     }
 
     public void addFragment(FragmentType fragmentType, Fragment fragment) {
-        if(fragmentType == FragmentType.NO_FRAGMENT) {
+        if (fragmentType == FragmentType.NO_FRAGMENT) {
             return;
         }
         FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.fragment_container,fragment,FRAGMENT_MAP_TAG);
+        ft.replace(R.id.fragment_container, fragment, FRAGMENT_MAP_TAG);
         ft.addToBackStack(null).commit();
         this.currentFragmentType = fragmentType;
     }
 
     private Fragment getFragmentByType(FragmentType type) {
-        switch(type) {
-            case NO_FRAGMENT: return null;
-            case MAP_FRAGMENT: return MapFragment.newInstance();
-            default: return null;
+        switch (type) {
+            case NO_FRAGMENT:
+                return null;
+            case MAP_FRAGMENT:
+                return MapFragment.newInstance();
+            default:
+                return null;
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_item_update: ((MeteoriteFragment) getFragmentManager().findFragmentByTag(FRAGMENT_METEORITE_TAG)).updateMeteorites();
+            case R.id.menu_item_update:
+                ((MeteoriteFragment) getFragmentManager().findFragmentByTag(FRAGMENT_METEORITE_TAG)).updateMeteorites();
                 return true;
-            case R.id.menu_item_about: return true;
+            case R.id.menu_item_about:
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -105,16 +111,17 @@ public class MainActivity extends AppCompatActivity  {
         FragmentManager fm = getFragmentManager();
         Fragment newFragment = fm.findFragmentByTag(FRAGMENT_MAP_TAG);
 
-        if(newFragment != null) {
+        if (newFragment != null) {
             fm.beginTransaction().remove(newFragment).commit();
             fm.popBackStack();
         }
         fm.executePendingTransactions();
+        currentFragmentType = FragmentType.NO_FRAGMENT;
     }
 
     @Override
     public void onBackPressed() {
-        if(getFragmentManager().findFragmentByTag(FRAGMENT_MAP_TAG)!=null) {
+        if (getFragmentManager().findFragmentByTag(FRAGMENT_MAP_TAG) != null) {
             removeFragment();
         } else {
             super.onBackPressed();
