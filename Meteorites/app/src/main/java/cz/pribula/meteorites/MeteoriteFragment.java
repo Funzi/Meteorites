@@ -1,5 +1,6 @@
 package cz.pribula.meteorites;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
@@ -57,6 +58,12 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         adapter = new MeteoritesAdapter(getActivity(), this);
         this.realm = RealmController.with(getActivity()).getRealm();
         setRetainInstance(true);
+        SharedPreferences sharedPref = getActivity().getPreferences(getActivity().MODE_PRIVATE);
+
+        if(!sharedPref.getBoolean(getString(R.string.app_name), false)) {
+            updateMeteorites();
+        }
+
     }
 
     @Override
@@ -127,11 +134,15 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     public void updateMeteorites() {
         Call<List<MeteoriteDTO>> call = client.getAllMeteoritesFromDate();
         call.enqueue(new UpdateCallback(getActivity().getApplication(),this));
-}
+    }
 
     @Override
     public void onMeteoritesUpdated() {
         setToolbarTitle();
+        SharedPreferences sharedPref = getActivity().getPreferences(getActivity().MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putBoolean(getString(R.string.app_name), true);
+        editor.commit();
         adapter.notifyDataSetChanged();
     }
 
