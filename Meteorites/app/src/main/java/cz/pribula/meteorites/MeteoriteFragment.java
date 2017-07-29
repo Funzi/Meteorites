@@ -109,19 +109,14 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     }
     @Override
     public void onAdapterItemClick(MeteoritePojo item) {
-        MapFragment mapFragment = MapFragment.newInstance();
-        GoogleMapOptions options = new GoogleMapOptions();
-        currentMeteorite = item;
-        options.mapType(GoogleMap.MAP_TYPE_SATELLITE)
-                .compassEnabled(false)
-                .rotateGesturesEnabled(false)
-                .tiltGesturesEnabled(false)
-                .camera(new CameraPosition(new LatLng(Double.parseDouble(item.getLatitude()),Double.parseDouble(item.getLongitude())),14f,14f,14f))
+        addMap(item);
+    }
 
-                ;
-        //Marker newmarker = mapFragment..addMarker(new MarkerOptions().position(null).title("marker title").icon(BitmapDescriptorFactory.fromResource(R.drawable.mr_button_light)));
+    private void addMap(MeteoritePojo item) {
+        MapFragmentWithRetainedState mapFragment = MapFragmentWithRetainedState.newInstance();
+        currentMeteorite = item;
         mapFragment.getMapAsync(this);
-        ((MainActivity) getActivity()).addFragment(MainActivity.FragmentType.MAP_FRAGMENT,mapFragment);
+        ((MainActivity) getActivity()).addFragment(MainActivity.FragmentType.MAP_FRAGMENT, mapFragment);
     }
 
     @Override
@@ -130,11 +125,11 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         placeMarker(currentMeteorite.getName(),Double.parseDouble(currentMeteorite.getLatitude()),Double.parseDouble(currentMeteorite.getLongitude()));
     }
 
-    //Added public method to be called from the Activity
-    public void placeMarker(String title, double lat, double lon) {
+    private void placeMarker(String title, double lat, double lon) {
+        final int ZOOM_WORLD = 1;
         if (map != null) {
             LatLng marker = new LatLng(lat, lon);
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 1));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, ZOOM_WORLD));
             map.addMarker(new MarkerOptions().title(title).position(marker));
         }
     }
