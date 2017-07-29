@@ -2,16 +2,14 @@ package cz.pribula.meteorites.api;
 
 import java.util.List;
 
-import cz.pribula.meteorites.MeteoriteDTO;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class NasaClientImpl {
+public class NasaClientImpl implements NasaClient{
 
-    String API_BASE_URL = "https://data.nasa.gov/";
-    NasaClient client;
+    private NasaClient client;
 
     public NasaClientImpl() {
 
@@ -33,11 +31,12 @@ public class NasaClientImpl {
 
         client = retrofit.create(NasaClient.class);
     }
-
+    @Override
     public Call<List<MeteoriteDTO>> getAllMeteorites() {
         return client.getAllMeteorites();
     }
 
+    @Override
     public Call<List<MeteoriteDTO>> getAllMeteoritesFromDate() {
         return client.getAllMeteoritesFromDate();
     }

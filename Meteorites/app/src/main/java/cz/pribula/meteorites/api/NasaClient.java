@@ -3,11 +3,12 @@ package cz.pribula.meteorites.api;
 
 import java.util.List;
 
-import cz.pribula.meteorites.MeteoriteDTO;
 import retrofit2.Call;
 import retrofit2.http.GET;
 
 public interface NasaClient {
+
+    String API_BASE_URL = "https://data.nasa.gov/";
 
     @GET("resource/y77d-th95.json/")
     Call<List<MeteoriteDTO>> getAllMeteorites();
