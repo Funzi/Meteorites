@@ -56,20 +56,20 @@ public class RealmController {
 
     public void clearAll() {
         realm.beginTransaction();
-        realm.clear(MeteoritePojo.class);
+        realm.clear(Meteorite.class);
         realm.commitTransaction();
     }
 
-    public RealmResults<MeteoritePojo> getMeteorites() {
-        return realm.where(MeteoritePojo.class).findAll();
+    public RealmResults<Meteorite> getMeteorites() {
+        return realm.where(Meteorite.class).findAll();
     }
 
     //query a single item with the given id
-    public MeteoritePojo getMeteorite(String id) {
-        return realm.where(MeteoritePojo.class).equalTo("id", id).findFirst();
+    public Meteorite getMeteorite(String id) {
+        return realm.where(Meteorite.class).equalTo("id", id).findFirst();
     }
 
-    public static void sortMeteoritesByParameter(RealmResults<MeteoritePojo> meteoritesResult, String parameter) {
+    public static void sortMeteoritesByParameter(RealmResults<Meteorite> meteoritesResult, String parameter) {
         meteoritesResult.sort(parameter, RealmResults.SORT_ORDER_DESCENDING);
     }
 }

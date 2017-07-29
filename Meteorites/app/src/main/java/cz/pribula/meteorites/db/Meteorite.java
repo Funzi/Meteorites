@@ -3,7 +3,7 @@ package cz.pribula.meteorites.db;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class MeteoritePojo extends RealmObject {
+public class Meteorite extends RealmObject {
     @PrimaryKey
     private String id;
     private String name;

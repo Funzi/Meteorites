@@ -9,18 +9,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import cz.pribula.meteorites.R;
-import cz.pribula.meteorites.db.MeteoritePojo;
+import cz.pribula.meteorites.db.Meteorite;
 import cz.pribula.meteorites.db.RealmController;
 import io.realm.Realm;
 
-public class MeteoritesAdapter extends RealmAdapter<MeteoritePojo> {
+public class MeteoritesAdapter extends RealmAdapter<Meteorite> {
 
     MeteoritesAdapter.OnAdapterItemClickListener listener;
     final Context context;
     private Realm realm;
 
     public interface OnAdapterItemClickListener {
-        void onAdapterItemClick(MeteoritePojo item);
+        void onAdapterItemClick(Meteorite item);
     }
 
     public MeteoritesAdapter(Context context, MeteoritesAdapter.OnAdapterItemClickListener listener) {
@@ -39,7 +39,7 @@ public class MeteoritesAdapter extends RealmAdapter<MeteoritePojo> {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         realm = RealmController.getInstance().getRealm();
-        final MeteoritePojo meteorite = getItem(position);
+        final Meteorite meteorite = getItem(position);
 
         final MeteoritesAdapter.ViewHolder holder = (MeteoritesAdapter.ViewHolder) viewHolder;
         holder.itemName.setText(position + 1 + "." + meteorite.getName());
@@ -68,7 +68,7 @@ public class MeteoritesAdapter extends RealmAdapter<MeteoritePojo> {
             itemMass = (TextView) v.findViewById(R.id.meteorite_mass);
         }
 
-        public void bind(final MeteoritePojo item, final MeteoritesAdapter.OnAdapterItemClickListener listener) {
+        public void bind(final Meteorite item, final MeteoritesAdapter.OnAdapterItemClickListener listener) {
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

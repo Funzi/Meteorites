@@ -21,7 +21,8 @@ import java.util.List;
 import cz.pribula.meteorites.adapter.MeteoritesAdapter;
 import cz.pribula.meteorites.adapter.RealmMeteoritesAdapter;
 import cz.pribula.meteorites.api.NasaClientImpl;
-import cz.pribula.meteorites.db.MeteoritePojo;
+import cz.pribula.meteorites.api.MeteoriteDTO;
+import cz.pribula.meteorites.db.Meteorite;
 import cz.pribula.meteorites.db.RealmController;
 import cz.pribula.meteorites.map.MapFragmentWithRetainedState;
 import io.realm.Realm;
@@ -34,12 +35,12 @@ import retrofit2.Response;
 public class MeteoriteFragment extends android.app.Fragment implements MeteoritesAdapter.OnAdapterItemClickListener, OnMapReadyCallback {
 
     NasaClientImpl client;
-    List<MeteoritePojo> meteorites;
+    List<Meteorite> meteorites;
     MeteoritesAdapter adapter;
     RecyclerView meteoritesView;
     GoogleMap map;
     private Realm realm;
-    private MeteoritePojo currentMeteorite;
+    private Meteorite currentMeteorite;
 
     public MeteoriteFragment() {
         // Required empty public constructor
@@ -90,7 +91,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     private void persistData(List<MeteoriteDTO> meteorites) {
         for (MeteoriteDTO m : meteorites) {
 
-            MeteoritePojo newMeteorite = new MeteoritePojo();
+            Meteorite newMeteorite = new Meteorite();
             newMeteorite.setId(m.getId());
             newMeteorite.setLatitude(m.getLatitude());
             newMeteorite.setLongitude(m.getLongitude());
@@ -107,11 +108,11 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     }
 
     @Override
-    public void onAdapterItemClick(MeteoritePojo item) {
+    public void onAdapterItemClick(Meteorite item) {
         addMap(item);
     }
 
-    private void addMap(MeteoritePojo item) {
+    private void addMap(Meteorite item) {
         MapFragmentWithRetainedState mapFragment = MapFragmentWithRetainedState.newInstance();
         currentMeteorite = item;
         mapFragment.getMapAsync(this);
@@ -133,7 +134,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         }
     }
 
-    public void setRealmAdapter(RealmResults<MeteoritePojo> meteoritesResult) {
+    public void setRealmAdapter(RealmResults<Meteorite> meteoritesResult) {
         RealmController.sortMeteoritesByParameter(meteoritesResult, "mass");
         RealmMeteoritesAdapter realmAdapter = new RealmMeteoritesAdapter(getActivity().getApplicationContext(), meteoritesResult, true);
 
