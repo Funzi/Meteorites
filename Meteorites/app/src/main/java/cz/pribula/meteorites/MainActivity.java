@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     public static final String APP_TITLE = "Meteorites";
     public static final String METEORITES_UPDATED_TAG = "updated";
 
+    UpdateBroadcastReceiver receiver;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("cz.pribula.meteorites");
-        UpdateBroadcastReceiver receiver = new UpdateBroadcastReceiver();
+        receiver = new UpdateBroadcastReceiver();
         registerReceiver(receiver, intentFilter);
     }
 
@@ -70,6 +72,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         super.onRestoreInstanceState(savedInstanceState);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unregisterReceiver(receiver);
+        super.onDestroy();
     }
 
     public void addFragment(FragmentType fragmentType) {
