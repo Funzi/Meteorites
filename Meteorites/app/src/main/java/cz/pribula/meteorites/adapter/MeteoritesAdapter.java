@@ -1,6 +1,7 @@
 package cz.pribula.meteorites.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,9 +44,14 @@ public class MeteoritesAdapter extends RealmAdapter<Meteorite> {
 
         final MeteoritesAdapter.ViewHolder holder = (MeteoritesAdapter.ViewHolder) viewHolder;
         holder.itemName.setText(position + 1 + "." + meteorite.getName());
-        holder.itemDate.setText(meteorite.getTimestamp());
+        holder.itemDate.setText(formatDate(meteorite));
         holder.itemMass.setText(meteorite.getMass() + " g");
         holder.bind(meteorite, listener);
+    }
+
+    @NonNull
+    private String formatDate(Meteorite meteorite) {
+        return meteorite.getTimestamp().substring(0,10);
     }
 
     @Override
