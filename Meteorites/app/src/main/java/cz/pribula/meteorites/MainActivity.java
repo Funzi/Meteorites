@@ -3,6 +3,8 @@ package cz.pribula.meteorites;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -11,8 +13,7 @@ import android.view.MenuItem;
 
 import com.google.android.gms.maps.MapFragment;
 
-import io.realm.Realm;
-import io.realm.RealmConfiguration;
+import cz.pribula.meteorites.db.RealmController;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,23 +25,24 @@ public class MainActivity extends AppCompatActivity {
 
     private FragmentType currentFragmentType;
 
+    public static final String METEORITES_UPDATED_TAG = "updated";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Fragment frag = new MeteoriteFragment().newInstance("", "");
+        Fragment frag = new MeteoriteFragment().newInstance();
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         ft.replace(R.id.fragment_container, frag, FRAGMENT_METEORITE_TAG).commit();
         currentFragmentType = FragmentType.NO_FRAGMENT;
 
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
-                .name(Realm.DEFAULT_REALM_NAME)
-                .schemaVersion(0)
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(realmConfiguration);
+        RealmController.setRealmConfiguration(getApplication());
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("cz.pribula.meteorites");
+        UpdateBroadcastReceiver receiver = new UpdateBroadcastReceiver();
+        registerReceiver(receiver, intentFilter);
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -101,6 +103,10 @@ public class MainActivity extends AppCompatActivity {
                 ((MeteoriteFragment) getFragmentManager().findFragmentByTag(FRAGMENT_METEORITE_TAG)).updateMeteorites();
                 return true;
             case R.id.menu_item_about:
+                UpdateService.scheduleOneOff(this);
+                return true;
+            case R.id.menu_item_clear:
+                RealmController.with(getApplication()).clearAll();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -126,5 +132,10 @@ public class MainActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

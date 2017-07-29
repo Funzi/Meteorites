@@ -18,6 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <service
+            android:name=".UpdateService"
+            android:exported="true"
+            android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
+            <intent-filter>
+                <action android:name="com.google.android.gms.gcm.ACTION_TASK_READY" />
+            </intent-filter>
+        </service>
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBTtgAaCq1vPIvLesKeKsoPAk-M5fK2LMI"/>

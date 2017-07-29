@@ -123,7 +123,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
 
     public void updateMeteorites() {
         Call<List<MeteoriteDTO>> call = client.getAllMeteoritesFromDate();
-        call.enqueue(new UpdateCallback(this));
+        call.enqueue(new UpdateCallback(getActivity().getApplication(),this));
 }
 
     @Override

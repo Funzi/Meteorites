@@ -9,6 +9,7 @@ import java.util.List;
 
 import cz.pribula.meteorites.api.MeteoriteDTO;
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 
 public class RealmController {
@@ -47,6 +48,15 @@ public class RealmController {
     public static RealmController getInstance() {
 
         return instance;
+    }
+
+    public static void setRealmConfiguration(Application app) {
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(app)
+                .name(Realm.DEFAULT_REALM_NAME)
+                .schemaVersion(0)
+                .deleteRealmIfMigrationNeeded()
+                .build();
+        Realm.setDefaultConfiguration(realmConfiguration);
     }
 
     public Realm getRealm() {
