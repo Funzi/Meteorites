@@ -87,8 +87,8 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void persistData(List<Meteorite> meteorites) {
-        for (Meteorite m : meteorites) {
+    private void persistData(List<MeteoriteDTO> meteorites) {
+        for (MeteoriteDTO m : meteorites) {
 
             MeteoritePojo newMeteorite = new MeteoritePojo();
             newMeteorite.setId(m.getId());
@@ -142,16 +142,16 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     }
 
     public void updateMeteorites() {
-        Call<List<Meteorite>> call = client.getAllMeteoritesFromDate();
-        call.enqueue(new Callback<List<Meteorite>>() {
+        Call<List<MeteoriteDTO>> call = client.getAllMeteoritesFromDate();
+        call.enqueue(new Callback<List<MeteoriteDTO>>() {
             @Override
-            public void onResponse(Call<List<Meteorite>> call, Response<List<Meteorite>> response) {
+            public void onResponse(Call<List<MeteoriteDTO>> call, Response<List<MeteoriteDTO>> response) {
                 persistData(response.body());
                 adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onFailure(Call<List<Meteorite>> call, Throwable t) {
+            public void onFailure(Call<List<MeteoriteDTO>> call, Throwable t) {
                 adapter.notifyDataSetChanged();
             }
         });

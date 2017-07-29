@@ -2,7 +2,7 @@ package cz.pribula.meteorites.api;
 
 import java.util.List;
 
-import cz.pribula.meteorites.Meteorite;
+import cz.pribula.meteorites.MeteoriteDTO;
 import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -34,11 +34,11 @@ public class NasaClientImpl {
         client = retrofit.create(NasaClient.class);
     }
 
-    public Call<List<Meteorite>> getAllMeteorites() {
+    public Call<List<MeteoriteDTO>> getAllMeteorites() {
         return client.getAllMeteorites();
     }
 
-    public Call<List<Meteorite>> getAllMeteoritesFromDate() {
+    public Call<List<MeteoriteDTO>> getAllMeteoritesFromDate() {
         return client.getAllMeteoritesFromDate();
     }
 }

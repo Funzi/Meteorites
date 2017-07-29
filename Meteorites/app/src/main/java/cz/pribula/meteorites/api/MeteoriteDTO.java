@@ -1,9 +1,9 @@
-package cz.pribula.meteorites;
+package cz.pribula.meteorites.api;
 
 import com.cocoahero.android.geojson.Point;
 import com.google.gson.annotations.SerializedName;
 
-public class Meteorite {
+public class MeteoriteDTO {
     @SerializedName("name")
     private String name;
     @SerializedName("id")
