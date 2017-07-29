@@ -20,19 +20,17 @@ import java.util.List;
 
 import cz.pribula.meteorites.adapter.MeteoritesAdapter;
 import cz.pribula.meteorites.adapter.RealmMeteoritesAdapter;
-import cz.pribula.meteorites.api.NasaClientImpl;
 import cz.pribula.meteorites.api.MeteoriteDTO;
+import cz.pribula.meteorites.api.NasaClientImpl;
 import cz.pribula.meteorites.db.Meteorite;
 import cz.pribula.meteorites.db.RealmController;
 import cz.pribula.meteorites.map.MapFragmentWithRetainedState;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 
-public class MeteoriteFragment extends android.app.Fragment implements MeteoritesAdapter.OnAdapterItemClickListener, OnMapReadyCallback {
+public class MeteoriteFragment extends android.app.Fragment implements MeteoritesAdapter.OnAdapterItemClickListener, OnMapReadyCallback, UpdateCallback.OnMeteoritesUpdatedListener {
 
     NasaClientImpl client;
     List<Meteorite> meteorites;
@@ -88,25 +86,6 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         super.onViewCreated(view, savedInstanceState);
     }
 
-    private void persistData(List<MeteoriteDTO> meteorites) {
-        for (MeteoriteDTO m : meteorites) {
-
-            Meteorite newMeteorite = new Meteorite();
-            newMeteorite.setId(m.getId());
-            newMeteorite.setLatitude(m.getLatitude());
-            newMeteorite.setLongitude(m.getLongitude());
-            newMeteorite.setMass(m.getMass());
-            newMeteorite.setNameType(m.getNameType());
-            newMeteorite.setTimestamp(m.getTimestamp());
-            newMeteorite.setName(m.getName());
-            realm.beginTransaction();
-            realm.copyToRealm(newMeteorite);
-            realm.commitTransaction();
-        }
-
-        // getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE).with(this).setPreLoad(true);
-    }
-
     @Override
     public void onAdapterItemClick(Meteorite item) {
         addMap(item);
@@ -144,17 +123,11 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
 
     public void updateMeteorites() {
         Call<List<MeteoriteDTO>> call = client.getAllMeteoritesFromDate();
-        call.enqueue(new Callback<List<MeteoriteDTO>>() {
-            @Override
-            public void onResponse(Call<List<MeteoriteDTO>> call, Response<List<MeteoriteDTO>> response) {
-                persistData(response.body());
-                adapter.notifyDataSetChanged();
-            }
+        call.enqueue(new UpdateCallback(this));
+}
 
-            @Override
-            public void onFailure(Call<List<MeteoriteDTO>> call, Throwable t) {
-                adapter.notifyDataSetChanged();
-            }
-        });
+    @Override
+    public void onMeteoritesUpdated() {
+        adapter.notifyDataSetChanged();
     }
 }

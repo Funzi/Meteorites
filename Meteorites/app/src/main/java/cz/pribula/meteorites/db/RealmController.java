@@ -5,6 +5,9 @@ import android.app.Activity;
 import android.app.Application;
 import android.support.v4.app.Fragment;
 
+import java.util.List;
+
+import cz.pribula.meteorites.api.MeteoriteDTO;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -67,6 +70,25 @@ public class RealmController {
     //query a single item with the given id
     public Meteorite getMeteorite(String id) {
         return realm.where(Meteorite.class).equalTo("id", id).findFirst();
+    }
+
+    public void persistData(List<MeteoriteDTO> meteorites) {
+        for (MeteoriteDTO m : meteorites) {
+
+            Meteorite newMeteorite = new Meteorite();
+            newMeteorite.setId(m.getId());
+            newMeteorite.setLatitude(m.getLatitude());
+            newMeteorite.setLongitude(m.getLongitude());
+            newMeteorite.setMass(m.getMass());
+            newMeteorite.setNameType(m.getNameType());
+            newMeteorite.setTimestamp(m.getTimestamp());
+            newMeteorite.setName(m.getName());
+            realm.beginTransaction();
+            realm.copyToRealmOrUpdate(newMeteorite);
+            realm.commitTransaction();
+        }
+
+        // getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE).with(this).setPreLoad(true);
     }
 
     public static void sortMeteoritesByParameter(RealmResults<Meteorite> meteoritesResult, String parameter) {
