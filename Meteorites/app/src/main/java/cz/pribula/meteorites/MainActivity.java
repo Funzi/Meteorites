@@ -15,13 +15,12 @@ import com.google.android.gms.maps.MapFragment;
 
 import cz.pribula.meteorites.db.RealmController;
 import cz.pribula.meteorites.service.UpdateBroadcastReceiver;
-import cz.pribula.meteorites.service.UpdateService;
 
 public class MainActivity extends AppCompatActivity {
 
-    public enum FragmentType {NO_FRAGMENT, MAP_FRAGMENT, ABOUT_FRAGMENT}
+    public enum FragmentType {NO_FRAGMENT, MAP_FRAGMENT}
 
-    private static final String FRAGMENT_METEORITE_TAG = "fragment_meteorite";
+    public static final String FRAGMENT_METEORITE_TAG = "fragment_meteorite";
     private static final String FRAGMENT_MAP_TAG = "fragment_map";
     private static final String FRAGMENT_TYPE_TAG = "fragment_type";
 
