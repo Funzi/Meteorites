@@ -14,6 +14,8 @@ import android.view.MenuItem;
 import com.google.android.gms.maps.MapFragment;
 
 import cz.pribula.meteorites.db.RealmController;
+import cz.pribula.meteorites.service.UpdateBroadcastReceiver;
+import cz.pribula.meteorites.service.UpdateService;
 
 public class MainActivity extends AppCompatActivity {
 

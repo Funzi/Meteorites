@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".UpdateService"
+            android:name=".service.UpdateService"
             android:exported="true"
             android:permission="com.google.android.gms.permission.BIND_NETWORK_TASK_SERVICE">
             <intent-filter>

@@ -1,10 +1,13 @@
-package cz.pribula.meteorites;
+package cz.pribula.meteorites.service;
 
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+
+import cz.pribula.meteorites.MainActivity;
+import cz.pribula.meteorites.MeteoriteFragment;
 
 public class UpdateBroadcastReceiver extends BroadcastReceiver{
 
