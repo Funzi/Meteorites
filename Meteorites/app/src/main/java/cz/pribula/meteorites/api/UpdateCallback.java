@@ -1,10 +1,11 @@
-package cz.pribula.meteorites;
+package cz.pribula.meteorites.api;
 
 import android.app.Application;
+import android.widget.Toast;
 
 import java.util.List;
 
-import cz.pribula.meteorites.api.MeteoriteDTO;
+import cz.pribula.meteorites.R;
 import cz.pribula.meteorites.db.RealmController;
 import io.realm.Realm;
 import retrofit2.Call;
@@ -15,8 +16,8 @@ import retrofit2.Response;
 
 public class UpdateCallback implements Callback<List<MeteoriteDTO>> {
 
-    OnMeteoritesUpdatedListener listener;
-    Application app;
+    private OnMeteoritesUpdatedListener listener;
+    private Application app;
 
     public UpdateCallback(Application app, OnMeteoritesUpdatedListener listener) {
         this.listener = listener;
@@ -38,6 +39,7 @@ public class UpdateCallback implements Callback<List<MeteoriteDTO>> {
 
     @Override
     public void onFailure(Call<List<MeteoriteDTO>> call, Throwable t) {
+        Toast.makeText(app, R.string.connection_failed_toast, Toast.LENGTH_LONG).show();
     }
 
     public interface OnMeteoritesUpdatedListener {

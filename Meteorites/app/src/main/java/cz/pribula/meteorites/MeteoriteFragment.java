@@ -33,11 +33,11 @@ import retrofit2.Call;
 
 public class MeteoriteFragment extends android.app.Fragment implements MeteoritesAdapter.OnAdapterItemClickListener, OnMapReadyCallback, UpdateCallback.OnMeteoritesUpdatedListener {
 
-    NasaClientImpl client;
-    List<Meteorite> meteorites;
-    MeteoritesAdapter adapter;
-    RecyclerView meteoritesView;
-    GoogleMap map;
+    private NasaClientImpl client;
+    private List<Meteorite> meteorites;
+    private MeteoritesAdapter adapter;
+    private RecyclerView meteoritesView;
+    private GoogleMap map;
     private Realm realm;
     private Meteorite currentMeteorite;
 
@@ -123,7 +123,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         }
     }
 
-    public void setRealmAdapter(RealmResults<Meteorite> meteoritesResult) {
+    private void setRealmAdapter(RealmResults<Meteorite> meteoritesResult) {
         RealmController.sortMeteoritesByParameter(meteoritesResult, "mass");
         RealmMeteoritesAdapter realmAdapter = new RealmMeteoritesAdapter(getActivity().getApplicationContext(), meteoritesResult, true);
 
@@ -148,5 +148,9 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
 
     private void setToolbarTitle() {
         getActivity().setTitle(MainActivity.APP_TITLE + " (" + adapter.getItemCount()+")");
+    }
+
+    public void refreshList() {
+        adapter.notifyDataSetChanged();
     }
 }

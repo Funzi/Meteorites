@@ -16,8 +16,8 @@ import io.realm.Realm;
 
 public class MeteoritesAdapter extends RealmAdapter<Meteorite> {
 
-    MeteoritesAdapter.OnAdapterItemClickListener listener;
-    final Context context;
+    private MeteoritesAdapter.OnAdapterItemClickListener listener;
+    private final Context context;
     private Realm realm;
 
     public interface OnAdapterItemClickListener {
