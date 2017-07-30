@@ -113,12 +113,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.menu_item_update:
                 ((MeteoriteFragment) getFragmentManager().findFragmentByTag(FRAGMENT_METEORITE_TAG)).updateMeteorites();
                 return true;
-            case R.id.menu_item_about:
-                UpdateService.scheduleUpdate(this);
-                return true;
-            case R.id.menu_item_clear:
-                RealmController.with(getApplication()).clearAll();
-                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
