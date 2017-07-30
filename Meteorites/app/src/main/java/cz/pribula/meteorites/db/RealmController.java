@@ -97,8 +97,6 @@ public class RealmController {
             realm.copyToRealmOrUpdate(newMeteorite);
             realm.commitTransaction();
         }
-
-        // getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE).with(this).setPreLoad(true);
     }
 
     public static void sortMeteoritesByParameter(RealmResults<Meteorite> meteoritesResult, String parameter) {

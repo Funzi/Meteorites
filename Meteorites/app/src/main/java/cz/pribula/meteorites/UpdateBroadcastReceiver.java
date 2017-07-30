@@ -13,7 +13,7 @@ public class UpdateBroadcastReceiver extends BroadcastReceiver{
         Bundle extras = intent.getExtras();
         boolean updated = extras.getBoolean(MainActivity.METEORITES_UPDATED_TAG);
         if(updated) {
-            ((MeteoriteFragment) ((MainActivity) context).getFragmentManager().findFragmentByTag("fragment_meteorite")).adapter.notifyDataSetChanged();
+            ((MeteoriteFragment) ((MainActivity) context).getFragmentManager().findFragmentByTag("fragment_meteorite")).refreshList();
         }
     }
 }

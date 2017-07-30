@@ -37,7 +37,7 @@ public class NasaClientImpl implements NasaClient{
     }
 
     @Override
-    public Call<List<MeteoriteDTO>> getAllMeteoritesFromDate() {
-        return client.getAllMeteoritesFromDate();
+    public Call<List<MeteoriteDTO>> getAllMeteoritesFrom2011() {
+        return client.getAllMeteoritesFrom2011();
     }
 }

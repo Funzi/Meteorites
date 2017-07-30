@@ -23,6 +23,7 @@ import cz.pribula.meteorites.adapter.MeteoritesAdapter;
 import cz.pribula.meteorites.adapter.RealmMeteoritesAdapter;
 import cz.pribula.meteorites.api.MeteoriteDTO;
 import cz.pribula.meteorites.api.NasaClientImpl;
+import cz.pribula.meteorites.api.UpdateCallback;
 import cz.pribula.meteorites.db.Meteorite;
 import cz.pribula.meteorites.db.RealmController;
 import cz.pribula.meteorites.map.MapFragmentWithRetainedState;
@@ -55,7 +56,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         super.onCreate(savedInstanceState);
         client = new NasaClientImpl();
         meteorites = new ArrayList<>();
-        adapter = new MeteoritesAdapter(getActivity(), this);
+        adapter = new MeteoritesAdapter(this);
         this.realm = RealmController.with(getActivity()).getRealm();
         setRetainInstance(true);
         SharedPreferences sharedPref = getActivity().getPreferences(getActivity().MODE_PRIVATE);
@@ -132,7 +133,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     }
 
     public void updateMeteorites() {
-        Call<List<MeteoriteDTO>> call = client.getAllMeteoritesFromDate();
+        Call<List<MeteoriteDTO>> call = client.getAllMeteoritesFrom2011();
         call.enqueue(new UpdateCallback(getActivity().getApplication(),this));
     }
 

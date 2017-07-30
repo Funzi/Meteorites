@@ -11,22 +11,17 @@ import android.widget.TextView;
 
 import cz.pribula.meteorites.R;
 import cz.pribula.meteorites.db.Meteorite;
-import cz.pribula.meteorites.db.RealmController;
-import io.realm.Realm;
 
 public class MeteoritesAdapter extends RealmAdapter<Meteorite> {
 
     private MeteoritesAdapter.OnAdapterItemClickListener listener;
-    private final Context context;
-    private Realm realm;
 
     public interface OnAdapterItemClickListener {
         void onAdapterItemClick(Meteorite item);
     }
 
-    public MeteoritesAdapter(Context context, MeteoritesAdapter.OnAdapterItemClickListener listener) {
+    public MeteoritesAdapter(MeteoritesAdapter.OnAdapterItemClickListener listener) {
         this.listener = listener;
-        this.context = context;
     }
 
     @Override
@@ -39,7 +34,6 @@ public class MeteoritesAdapter extends RealmAdapter<Meteorite> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
-        realm = RealmController.getInstance().getRealm();
         final Meteorite meteorite = getItem(position);
 
         final MeteoritesAdapter.ViewHolder holder = (MeteoritesAdapter.ViewHolder) viewHolder;

@@ -13,19 +13,15 @@ android:layout_marginTop="10dp"
 
     <TextView
         style="@style/CodeFont"
-
         android:id="@+id/meteorite_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test"
         />
     <TextView
         style="@style/CodeFont"
-
         android:id="@+id/meteorite_mass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"/>
     <TextView
@@ -33,7 +29,6 @@ android:layout_marginTop="10dp"
         android:id="@+id/meteorite_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Test"
         android:layout_below="@+id/meteorite_name"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"/>

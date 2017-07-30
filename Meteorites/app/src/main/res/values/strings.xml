@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Meteorites</string>
+    <string name="connection_failed_toast">Could not connect to the server</string>
+    <string name="menu_item_update">Update</string>
 </resources>

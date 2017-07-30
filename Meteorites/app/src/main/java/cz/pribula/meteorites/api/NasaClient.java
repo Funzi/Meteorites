@@ -13,6 +13,7 @@ public interface NasaClient {
     @GET("resource/y77d-th95.json/")
     Call<List<MeteoriteDTO>> getAllMeteorites();
 
+
     @GET("resource/y77d-th95.json/" + "?$where=year>='2011-01-10T0:00:00'")
-    Call<List<MeteoriteDTO>> getAllMeteoritesFromDate();
+    Call<List<MeteoriteDTO>> getAllMeteoritesFrom2011();
 }
