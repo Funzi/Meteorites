@@ -38,9 +38,14 @@ public class MeteoritesAdapter extends RealmAdapter<Meteorite> {
         final MeteoritesAdapter.ViewHolder holder = (MeteoritesAdapter.ViewHolder) viewHolder;
         holder.itemName.setText(meteorite.getName());
         holder.itemDate.setText(formatDate(meteorite));
-        holder.itemMass.setText(meteorite.getMass() + " g");
+        holder.itemMass.setText(formatMass(meteorite));
         holder.itemType.setText(meteorite.getType());
         holder.bind(meteorite, listener);
+    }
+
+    @NonNull
+    private String formatMass(Meteorite meteorite) {
+        return meteorite.getMass() + " g";
     }
 
     @NonNull

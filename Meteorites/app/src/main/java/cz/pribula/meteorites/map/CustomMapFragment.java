@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import com.google.android.gms.maps.MapFragment;
 
 
-public class MapFragmentWithRetainedState extends MapFragment {
+public class CustomMapFragment extends MapFragment {
 
     private static final String TOOLBAR_TITLE_TAG = "title";
 
-    public static MapFragmentWithRetainedState newInstance(String fragmentTitle) {
+    public static CustomMapFragment newInstance(String fragmentTitle) {
         Bundle bundle = new Bundle();
         bundle.putString(TOOLBAR_TITLE_TAG, fragmentTitle);
-        MapFragmentWithRetainedState fragment = new MapFragmentWithRetainedState();
+        CustomMapFragment fragment = new CustomMapFragment();
         fragment.setArguments(bundle);
         return fragment;
     }

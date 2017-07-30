@@ -26,7 +26,7 @@ import cz.pribula.meteorites.api.NasaClientImpl;
 import cz.pribula.meteorites.api.UpdateCallback;
 import cz.pribula.meteorites.db.Meteorite;
 import cz.pribula.meteorites.db.RealmController;
-import cz.pribula.meteorites.map.MapFragmentWithRetainedState;
+import cz.pribula.meteorites.map.CustomMapFragment;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import retrofit2.Call;
@@ -103,7 +103,7 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     }
 
     private void addMap(Meteorite item) {
-        MapFragmentWithRetainedState mapFragment = MapFragmentWithRetainedState.newInstance(item.getName());
+        CustomMapFragment mapFragment = CustomMapFragment.newInstance(item.getName());
         currentMeteorite = item;
         mapFragment.getMapAsync(this);
         ((MainActivity) getActivity()).addFragment(MainActivity.FragmentType.MAP_FRAGMENT, mapFragment);

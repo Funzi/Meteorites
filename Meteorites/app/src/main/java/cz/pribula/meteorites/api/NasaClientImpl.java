@@ -22,12 +22,7 @@ public class NasaClientImpl implements NasaClient{
                                 GsonConverterFactory.create()
                         );
 
-        Retrofit retrofit =
-                builder
-                        .client(
-                                httpClient.build()
-                        )
-                        .build();
+        Retrofit retrofit = builder.client(httpClient.build()).build();
 
         client = retrofit.create(NasaClient.class);
     }
