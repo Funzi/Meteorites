@@ -39,7 +39,6 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
     private MeteoritesAdapter adapter;
     private RecyclerView meteoritesView;
     private GoogleMap map;
-    private Realm realm;
     private Meteorite currentMeteorite;
 
     public MeteoriteFragment() {
@@ -57,7 +56,6 @@ public class MeteoriteFragment extends android.app.Fragment implements Meteorite
         client = new NasaClientImpl();
         meteorites = new ArrayList<>();
         adapter = new MeteoritesAdapter(this);
-        this.realm = RealmController.with(getActivity()).getRealm();
         setRetainInstance(true);
         SharedPreferences sharedPref = getActivity().getPreferences(getActivity().MODE_PRIVATE);
 

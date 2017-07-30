@@ -15,8 +15,9 @@ public class UpdateBroadcastReceiver extends BroadcastReceiver{
     public void onReceive(Context context, Intent intent) {
         Bundle extras = intent.getExtras();
         boolean updated = extras.getBoolean(MainActivity.METEORITES_UPDATED_TAG);
-        if(updated) {
-            ((MeteoriteFragment) ((MainActivity) context).getFragmentManager().findFragmentByTag("fragment_meteorite")).refreshList();
+        if(updated && context instanceof MainActivity) {
+            MeteoriteFragment fragment = ((MeteoriteFragment) ((MainActivity) context).getFragmentManager().findFragmentByTag(MainActivity.FRAGMENT_METEORITE_TAG));
+            if(fragment != null) { fragment.refreshList();}
         }
     }
 }
