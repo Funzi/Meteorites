@@ -1,6 +1,7 @@
 package cz.pribula.meteorites.api;
 
 import android.app.Application;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class UpdateCallback implements Callback<List<MeteoriteDTO>> {
 
     private OnMeteoritesUpdatedListener listener;
     private Application app;
+    private final String TAG = UpdateCallback.class.getSimpleName();
 
     public UpdateCallback(Application app, OnMeteoritesUpdatedListener listener) {
         this.listener = listener;
@@ -40,6 +42,7 @@ public class UpdateCallback implements Callback<List<MeteoriteDTO>> {
     @Override
     public void onFailure(Call<List<MeteoriteDTO>> call, Throwable t) {
         Toast.makeText(app, R.string.connection_failed_toast, Toast.LENGTH_LONG).show();
+        Log.e(TAG,t.getMessage());
     }
 
     public interface OnMeteoritesUpdatedListener {
