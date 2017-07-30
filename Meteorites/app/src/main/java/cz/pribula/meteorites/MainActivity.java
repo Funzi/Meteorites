@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         RealmController.setRealmConfiguration(getApplication());
 
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("cz.pribula.meteorites");
+        intentFilter.addAction(getApplication().getPackageName());
         receiver = new UpdateBroadcastReceiver();
         registerReceiver(receiver, intentFilter);
     }

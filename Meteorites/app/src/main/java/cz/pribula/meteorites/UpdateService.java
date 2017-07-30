@@ -115,7 +115,7 @@ public class UpdateService extends GcmTaskService implements UpdateCallback.OnMe
     public void onMeteoritesUpdated() {
         Intent intent = new Intent();
         intent.putExtra(MainActivity.METEORITES_UPDATED_TAG, true);
-        intent.setAction("cz.pribula.meteorites");
+        intent.setAction(getApplication().getPackageName());
         sendBroadcast(intent);
     }
 }
