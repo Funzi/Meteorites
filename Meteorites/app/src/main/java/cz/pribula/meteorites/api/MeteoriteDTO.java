@@ -14,6 +14,8 @@ public class MeteoriteDTO {
     private double mass;
     @SerializedName("year")
     private String timestamp;
+    @SerializedName("recclass")
+    private String type;
     @SerializedName("reclat")
     private String latitude;
     @SerializedName("reclong")
@@ -89,9 +91,7 @@ public class MeteoriteDTO {
         return geolocationAddress;
     }
 
-    public void setGeolocationAddress(String geolocationAddress) {
-        this.geolocationAddress = geolocationAddress;
-    }
+    public void setGeolocationAddress(String geolocationAddress) {  this.geolocationAddress = geolocationAddress;  }
 
     public String getGeolocationZip() {
         return geolocationZip;
@@ -105,9 +105,7 @@ public class MeteoriteDTO {
         return geolocationCity;
     }
 
-    public void setGeolocationCity(String geolocationCity) {
-        this.geolocationCity = geolocationCity;
-    }
+    public void setGeolocationCity(String geolocationCity) { this.geolocationCity = geolocationCity;  }
 
     public Point getGeolocation() {
         return geolocation;
@@ -121,7 +119,9 @@ public class MeteoriteDTO {
         return geolocationState;
     }
 
-    public void setGeolocationState(String geolocationState) {
-        this.geolocationState = geolocationState;
-    }
+    public void setGeolocationState(String geolocationState) { this.geolocationState = geolocationState;   }
+
+    public String getType() {  return type;  }
+
+    public void setType(String type) {  this.type = type;  }
 }

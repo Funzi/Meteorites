@@ -93,6 +93,7 @@ public class RealmController {
             newMeteorite.setNameType(m.getNameType());
             newMeteorite.setTimestamp(m.getTimestamp());
             newMeteorite.setName(m.getName());
+            newMeteorite.setType(m.getType());
             realm.beginTransaction();
             realm.copyToRealmOrUpdate(newMeteorite);
             realm.commitTransaction();

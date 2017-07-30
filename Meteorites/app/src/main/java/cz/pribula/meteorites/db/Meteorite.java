@@ -12,6 +12,7 @@ public class Meteorite extends RealmObject {
     private String timestamp;
     private String latitude;
     private String longitude;
+    private String type;
 
     public String getId() {
         return id;
@@ -69,4 +70,7 @@ public class Meteorite extends RealmObject {
         this.longitude = longitude;
     }
 
+    public String getType() { return type;  }
+
+    public void setType(String type) { this.type = type; }
 }
