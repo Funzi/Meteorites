@@ -3,9 +3,7 @@ package cz.pribula.meteorites.service;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.android.gms.gcm.GcmNetworkManager;
 import com.google.android.gms.gcm.GcmTaskService;
@@ -13,8 +11,13 @@ import com.google.android.gms.gcm.PeriodicTask;
 import com.google.android.gms.gcm.Task;
 import com.google.android.gms.gcm.TaskParams;
 
+import java.util.List;
+
 import cz.pribula.meteorites.MainActivity;
+import cz.pribula.meteorites.api.MeteoriteDTO;
+import cz.pribula.meteorites.api.NasaClientImpl;
 import cz.pribula.meteorites.api.UpdateCallback;
+import retrofit2.Call;
 
 public class UpdateService extends GcmTaskService implements UpdateCallback.OnMeteoritesUpdatedListener {
 
@@ -32,19 +35,9 @@ public class UpdateService extends GcmTaskService implements UpdateCallback.OnMe
 
     @Override
     public int onRunTask(TaskParams taskParams) {
-        Handler h = new Handler(getMainLooper());
-        Log.v(TAG, "onRunTask");
-        if(taskParams.getTag().equals(UPDATE_TASK_TAG)) {
-            h.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(UpdateService.this, "UPDATE", Toast.LENGTH_SHORT).show();
-                }
-            });
-//            Call<List<MeteoriteDTO>> call = new NasaClientImpl().getAllMeteoritesFrom2011();
-//            call.enqueue(new UpdateCallback(getApplication(),this));
+        Call<List<MeteoriteDTO>> call = new NasaClientImpl().getAllMeteoritesFrom2011();
+        call.enqueue(new UpdateCallback(getApplication(),this));
 
-        }
         return GcmNetworkManager.RESULT_SUCCESS;
     }
 
