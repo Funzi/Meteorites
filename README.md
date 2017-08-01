@@ -1,1 +1,1 @@
-Application which will show all fallen meteorites on Earth from date later than 2011 and showes them on map.
+Application which shows all fallen meteorites on the Earth later than 2011 and shows them on map.
